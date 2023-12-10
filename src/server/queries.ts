@@ -2,8 +2,8 @@ import { db } from "./db";
 import { classifyLink } from "./linkStuff";
 
 export async function addLink(url: string) {
-  const categories = await getCategories();
-  const linkCategory = await classifyLink(url, categories);
+  // const categories = await getCategories();
+  //   const linkCategory = await classifyLink(url, categories);
 
   try {
     // const link = await db.link.create({
@@ -12,6 +12,8 @@ export async function addLink(url: string) {
     //   },
     // });
     // return link;
+
+    return console.log("URL from addLink:", url);
   } catch (error) {
     console.error("Error creating post:", error);
   } finally {

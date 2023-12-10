@@ -2,9 +2,9 @@
  * v0 by Vercel.
  * @see https://v0.dev/t/pYSQ22azu51
  */
-import { Input } from "~/app/components/ui/input";
-import { Button } from "~/app/components/ui/button";
+
 import { CardHeader, CardContent, Card } from "~/app/components/ui/card";
+import NewLinkInput from "~/app/components/newLinkInput";
 import Link from "next/link";
 
 import { getLinks, addLink } from "../server/queries";
@@ -21,18 +21,13 @@ const cat3 = link!.filter((item) => item.categoryId === 3);
 
 export default function Component() {
   return (
-    <>
-      <div className="mx-auto my-6 flex w-full max-w-sm items-center space-x-2 rounded-md bg-secondary p-8 sm:max-w-md md:max-w-lg lg:max-w-xl  xl:max-w-2xl">
-        <Input
-          className="w-full bg-white"
-          placeholder="Add new link"
-          type="text"
-        />
-        <Button type="submit">Add Link</Button>
+    <div>
+      <div className="flex justify-center">
+        <NewLinkInput />
       </div>
       <div>
-        <section className="container mx-auto px-4 py-12 md:px-6">
-          <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        <section className="container mx-auto flex justify-center px-4 py-12 md:px-6 ">
+          <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-3 ">
             <Card className="space-y-4 p-4">
               <CardHeader>
                 <h2 className="text-xl font-bold">Category 1</h2>
@@ -84,6 +79,6 @@ export default function Component() {
           </div>
         </section>
       </div>
-    </>
+    </div>
   );
 }
