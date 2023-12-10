@@ -57,7 +57,7 @@ async function queryModel(data: HuggingFaceModelData) {
     "https://api-inference.huggingface.co/models/MoritzLaurer/DeBERTa-v3-base-mnli-fever-anli",
     {
       headers: {
-        Authorization: "Bearer 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",
+        Authorization: "Bearer " + process.env.HUGGINGFACE_BEARER_TOKEN,
       },
       method: "POST",
       body: JSON.stringify(data),
