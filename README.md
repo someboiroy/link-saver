@@ -1,28 +1,53 @@
-# Create T3 App
+# NLP Link Saver
+Intelligent link categorization  based on site's content.
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+## About
 
-## What's next? How do I make an app with this?
+NLP Link Saver is a web application designed to organize and categorize web links using advanced Natural Language Processing (NLP) techniques. Built on a modern tech stack, it leverages the DeBERTa-v3-base-mnli-fever-anli model from Hugging Face to analyze and categorize links, enhancing the user's web browsing and bookmarking experience.
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+## Tech Stack
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+- **Frontend**: Next.js
+- **Backend**: Prisma, SQLite
+- **Text Classification Model**: [DeBERTa-v3-base-mnli-fever-anli via Hugging Face](https://huggingface.co/MoritzLaurer/DeBERTa-v3-base-mnli-fever-anli)
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+## Getting Started
 
-## Learn More
+1. **Clone the Repository**
+   
+   ```bash
+   git clone https://github.com/your-username/nlp-link-saver.git
+   cd nlp-link-saver
+   ```
 
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
+2. **Install Dependencies**
 
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
+   ```bash
+   npm install
+   ```
 
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
+3. **Set Up Environment Variables**
 
-## How do I deploy this?
+   Create a `.env` file in the project root and add the necessary environment variables.
 
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+   ```
+   DATABASE_URL="file:./dev.db"
+   HUGGINGFACE_BEARER_TOKEN="your_hugging_face_bearer_token"
+   ```
+
+4. **Run the Application**
+
+   ```bash
+   npm run dev
+   ```
+
+   Visit `http://localhost:3000` in your browser.
+
+## Usage
+
+- Add new links via the input field.
+- View categorized links on the main page.
+
+## Acknowledgments & Citations
+
+Laurer, Moritz, Wouter van Atteveldt, Andreu Salleras Casas, and Kasper Welbers. 2022. ‘Less Annotating, More Classifying – Addressing the Data Scarcity Issue of Supervised Machine Learning with Deep Transfer Learning and BERT - NLI’. Preprint, June. Open Science Framework. https://osf.io/74b8k.
