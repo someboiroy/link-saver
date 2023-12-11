@@ -6,7 +6,6 @@
 import { CardHeader, CardContent, Card } from "~/app/components/ui/card";
 import NewLinkInput from "~/app/components/newLinkInput";
 import Link from "next/link";
-import { Suspense } from "react";
 
 import { getCategoriesWithLinks } from "../server/queries";
 
