@@ -3,7 +3,7 @@ Intelligent link categorization  based on site's content.
 
 ## About
 
-NLP Link Saver is a web application designed to organize and categorize web links using advanced Natural Language Processing (NLP) techniques. Built on a modern tech stack, it leverages the DeBERTa-v3-base-mnli-fever-anli model from Hugging Face to analyze and categorize links, enhancing the user's web browsing and bookmarking experience.
+NLP Link Saver is a simple web application designed to categorize web links. Built on a modern tech stack, it leverages a fine-tune of DeBERTa-v3-base from Microsoft, DeBERTa-v3-base-mnli-fever-anli. It serves as a proof of concept for a real world application of NLP text classification. 
 
 ## Tech Stack
 
