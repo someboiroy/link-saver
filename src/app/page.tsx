@@ -6,9 +6,8 @@
 import { CardHeader, CardContent, Card } from "~/app/components/ui/card";
 import NewLinkInput from "~/app/components/newLinkInput";
 import Link from "next/link";
-
 import { getCategoriesWithLinks } from "../server/queries";
-
+import { GithubLogo } from "@phosphor-icons/react/dist/ssr";
 const categories = await getCategoriesWithLinks();
 
 export default function Component() {
@@ -26,7 +25,7 @@ export default function Component() {
               DeBERTa-v3-base-mnli-fever-anli
             </a>{" "}
             text classification model to intelligently categorization links
-            based on the sites content.
+            based on the site's content.
           </p>
         </div>
         <div className="mt-2">
@@ -34,6 +33,12 @@ export default function Component() {
             Built with ꨄ using Next.js, Tailwind CSS + ShadCN UI, SQLite and
             Prisma ORM.
           </span>
+          <a href="https://github.com/someboiroy/link-saver">
+            <span className=" flex text-xs font-medium">
+              <GithubLogo className="ml-auto" size={16} />
+              Repo
+            </span>
+          </a>
         </div>
       </div>
       <div className="m-8 rounded-md  bg-primary shadow-lg ">
