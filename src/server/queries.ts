@@ -1,19 +1,21 @@
 import { db } from "./db";
-import { classifyLink } from "./linkStuff";
+import type { linkInfo } from "~/app/api/addLink/route";
 
-export async function addLink(url: string) {
-  // const categories = await getCategories();
-  //   const linkCategory = await classifyLink(url, categories);
-
+export async function addLink(data: linkInfo) {
   try {
-    // const link = await db.link.create({
-    //   data: {
-    //     url,},
-    //   },
-    // });
-    // return link;
+    const link = await db.link.create({
+      data: {
+        url: data.url,
+        title: data.title,
+        category: {
+          connect: {
+            id: data.id,
+          },
+        },
+      },
+    });
 
-    return console.log("URL from addLink:", url);
+    console.log(link ? "Link created" : "Link not created");
   } catch (error) {
     console.error("Error creating post:", error);
   } finally {
@@ -34,9 +36,30 @@ export async function getLinks() {
 
 export async function getCategories() {
   try {
-    const categories = await db.category.findMany();
+    const categories = await db.category.findMany({
+      select: {
+        name: true,
+        id: true,
+      },
+    });
 
-    return categories.map((category) => category.name);
+    return categories;
+  } catch (error) {
+    console.error("Error getting categories:", error);
+  } finally {
+    await db.$disconnect();
+  }
+}
+
+export async function getCategoriesWithLinks() {
+  try {
+    const categories = await db.category.findMany({
+      include: {
+        links: true,
+      },
+    });
+
+    return categories;
   } catch (error) {
     console.error("Error getting categories:", error);
   } finally {

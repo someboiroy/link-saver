@@ -7,75 +7,40 @@ import { CardHeader, CardContent, Card } from "~/app/components/ui/card";
 import NewLinkInput from "~/app/components/newLinkInput";
 import Link from "next/link";
 
-import { getLinks, addLink } from "../server/queries";
+import { getCategoriesWithLinks } from "../server/queries";
 
-const link = await getLinks();
-
-// await addLink(
-//   "https://www.cnn.com/2023/12/08/us/tyranny-of-the-minority-american-democracy-cec/index.html",
-// );
-
-const cat1 = link!.filter((item) => item.categoryId === 1);
-const cat2 = link!.filter((item) => item.categoryId === 2);
-const cat3 = link!.filter((item) => item.categoryId === 3);
+const categories = await getCategoriesWithLinks();
 
 export default function Component() {
   return (
     <div>
+      <div>
+        <h1 className="my-6 text-center text-6xl font-bold">NLP Link Saver</h1>
+      </div>
       <div className="flex justify-center">
         <NewLinkInput />
       </div>
       <div>
         <section className="container mx-auto flex justify-center px-4 py-12 md:px-6 ">
           <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-3 ">
-            <Card className="space-y-4 p-4">
-              <CardHeader>
-                <h2 className="text-xl font-bold">Category 1</h2>
-              </CardHeader>
-              <CardContent className="flex flex-col">
-                {cat1.map((item) => (
-                  <Link
-                    key={item.id}
-                    className="text-indigo-500 hover:text-indigo-600"
-                    href={item.url}
-                  >
-                    {item.url}
-                  </Link>
-                ))}
-              </CardContent>
-            </Card>
-            <Card className="space-y-4 p-4">
-              <CardHeader>
-                <h2 className="text-xl font-bold">Category 2</h2>
-              </CardHeader>
-              <CardContent className="flex flex-col">
-                {cat2.map((item) => (
-                  <Link
-                    key={item.id}
-                    className="text-indigo-500 hover:text-indigo-600"
-                    href={item.url}
-                  >
-                    {item.url}
-                  </Link>
-                ))}
-              </CardContent>
-            </Card>
-            <Card className="space-y-4 p-4">
-              <CardHeader>
-                <h2 className="text-xl font-bold">Category 3</h2>
-              </CardHeader>
-              <CardContent className="flex flex-col">
-                {cat3.map((item) => (
-                  <Link
-                    key={item.id}
-                    className="text-indigo-500 hover:text-indigo-600"
-                    href={item.url}
-                  >
-                    {item.url}
-                  </Link>
-                ))}
-              </CardContent>
-            </Card>
+            {categories?.map((category) => (
+              <Card key={category.id}>
+                <CardHeader>
+                  <h3 className="text-lg font-medium text-gray-900">
+                    {category.name}
+                  </h3>
+                </CardHeader>
+                <CardContent>
+                  <ul className="">
+                    {category.links.map((link) => (
+                      <li key={link.id} className="flex">
+                        <Link href={link.url}>{link.title}</Link>
+                      </li>
+                    ))}
+                  </ul>
+                </CardContent>
+              </Card>
+            ))}
           </div>
         </section>
       </div>

@@ -1,35 +1,45 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { addLink } from "../../../server/queries";
+import { getCategories, addLink } from "../../../server/queries";
+import { classifyAndTitleLink } from "../../../server/linkStuff";
 
 interface reqBody {
   url: string;
 }
 
-export async function POST(req: NextRequest, res: NextResponse) {
+export interface linkInfo {
+  url: string;
+  title: string;
+  category: string;
+  id: number;
+}
+
+export async function POST(req: NextRequest) {
   if (req.method !== "POST") {
     return NextResponse.json({ error: "Method not allowed" }, { status: 405 });
   }
-
   const body = (await req.json()) as reqBody;
+  const currCategories = await getCategories();
+  const linkCategoryAndTitle = await classifyAndTitleLink(
+    body.url,
+    currCategories!.map((category) => category.name),
+  );
+
+  const linkInfo: linkInfo = {
+    url: body.url,
+    title: linkCategoryAndTitle.title,
+    category: linkCategoryAndTitle.label,
+    id: currCategories!.find(
+      (category) => category.name === linkCategoryAndTitle.label,
+    )!.id,
+  };
 
   try {
-    // const link = await db.link.create({
-    // data: {
-    //  url,
-    // },
-    // });
-    // return link;
-
-    console.log("Request Body from route:", body.url);
-
-    //res.status(200).json({ message: url });
+    await addLink(linkInfo);
   } catch (error) {
     console.error("Error creating post:", error);
-    //res.status(500).json({ error: "Error creating post" });
+    return NextResponse.json({ error: "Error creating post" }, { status: 500 });
   } finally {
-    //await db.$disconnect();
-    //res.status(200).json({ message: "Finally" });
     return NextResponse.json({ status: 200 });
   }
 }

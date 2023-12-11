@@ -2,15 +2,20 @@ import { Readability } from "@mozilla/readability";
 import { JSDOM } from "jsdom";
 
 interface HuggingFaceModelData {
-  inputs: string;
+  inputs: string | string[];
   parameters: {
-    candidate_labels: string[] | undefined;
+    candidate_labels: string[]; // array of strings, max length 10
+    multi_label?: boolean; // Default: false
+    options?: {
+      use_cache?: boolean; // Default: true
+      wait_for_model?: boolean; // Default: false
+    };
   };
 }
 
-interface HuggingFaceModelResponse {
+export interface HuggingFaceModelResponse {
   sequence: string;
-  label: string[];
+  labels: string[];
   score: number[];
 }
 
@@ -30,26 +35,39 @@ function getPlainTextFromHTML(html: string) {
   const doc = new JSDOM(html).window.document;
   const reader = new Readability(doc);
   const article = reader.parse();
-  return article?.textContent.trim() ?? "";
+
+  console.log(article);
+
+  return {
+    title: article?.title ?? "",
+    content: article?.textContent.trim() ?? "",
+  };
 }
 
-export async function classifyLink(
+export async function classifyAndTitleLink(
   url: string,
-  categories: string[] | undefined,
-): Promise<string> {
+  categories: string[],
+): Promise<{ label: string; title: string }> {
   const html = await fetchWebPage(url);
   const text = getPlainTextFromHTML(html!);
 
   const queryData: HuggingFaceModelData = {
-    inputs: text,
-    parameters: { candidate_labels: categories },
+    inputs: text.content,
+    parameters: {
+      candidate_labels: categories,
+      multi_label: true,
+      options: { wait_for_model: true },
+    },
   };
 
   const result = await queryModel(queryData);
 
   console.log(result);
   // return the label with the highest score
-  return result.label[0] ?? "";
+  return {
+    label: result.labels[0] ?? "",
+    title: text.title,
+  };
 }
 
 async function queryModel(data: HuggingFaceModelData) {
